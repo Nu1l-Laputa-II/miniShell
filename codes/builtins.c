@@ -4,7 +4,9 @@
 int is_builtin(char *cmd)
 {
     return (!strcmp(cmd, "cd") || !strcmp(cmd, "exit") ||
-            !strcmp(cmd, "env") || !strcmp(cmd, "echo"));
+            !strcmp(cmd, "env") || !strcmp(cmd, "echo") ||
+            !strcmp(cmd, "pwd") || !strcmp(cmd, "export") ||
+            !strcmp(cmd, "unset") || !strcmp(cmd, "history"));
 }
 
 // 执行内建命令
@@ -33,6 +35,53 @@ int execute_builtin(t_shell *shell, char **args)
             current = current->next;
         }
         return 0;
+    }
+    else if (!strcmp(args[0], "pwd"))
+        return execute_pwd();
+    else if (!strcmp(args[0], "export"))
+        return execute_export(shell, args);
+    else if (!strcmp(args[0], "unset"))
+        return execute_unset(shell, args);
+    else if (!strcmp(args[0], "history"))
+    {
+        display_history();
+        return 0;
+    }
+    return 1;
+}
+
+int execute_pwd(void)
+{
+    char cwd[1024];
+    if (getcwd(cwd, sizeof(cwd)) != NULL)
+    {
+        printf("%s\n", cwd);
+        return 0;
+    }
+    return 1;
+}
+
+int execute_export(t_shell *shell, char **args)
+{
+    if (!args[1])
+        return 1;
+    char *equals = strchr(args[1], '=');
+    if (!equals)
+        return 1;
+
+    *equals = '\0';
+    char *value = equals + 1;
+    
+    t_env *env = shell->env;
+    while (env)
+    {
+        if (!strcmp(env->key, args[1]))
+        {
+            free(env->value);
+            env->value = strdup(value);
+            return 0;
+        }
+        env = env->next;
     }
     return 1;
 }

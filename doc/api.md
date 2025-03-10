@@ -89,6 +89,54 @@ void signal_handler(void);
 - 参数：无
 - 返回值：无
 
+### 管道处理
+
+```c
+int handle_pipes(t_shell *shell, char **args);
+```
+处理命令管道。
+- 参数：
+  - shell: shell 结构体指针
+  - args: 命令参数数组
+- 返回值：执行状态
+
+### 提示符管理
+
+```c
+void set_custom_prompt(t_shell *shell, const char *prompt);
+```
+设置自定义提示符。
+- 参数：
+  - shell: shell 结构体指针
+  - prompt: 新的提示符字符串
+- 返回值：无
+
+### 新增内建命令
+
+```c
+int execute_pwd(void);
+```
+显示当前工作目录。
+- 返回值：执行状态
+
+```c
+int execute_export(t_shell *shell, char **args);
+```
+设置环境变量。
+- 参数：
+  - shell: shell 结构体指针
+  - args: 命令参数数组
+- 返回值：执行状态
+
+```c
+int execute_unset(t_shell *shell, char **args);
+```
+删除环境变量。
+- 参数：
+  - shell: shell 结构体指针
+  - args: 命令参数数组
+- 返回值：执行状态
+
 ## 数据结构
 
 ### 环境变量节点

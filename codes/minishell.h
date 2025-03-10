@@ -24,6 +24,8 @@ typedef struct s_shell
 {
     t_env *env;           // 环境变量链表
     int status;           // 最后执行的命令的退出状态
+    char *prompt;         // 自定义提示符
+    int pipe_count;       // 管道数量
 } t_shell;
 
 // Shell初始化和清理函数声明
@@ -37,6 +39,9 @@ int execute_command(t_shell *shell, char **args);
 // 内建命令函数声明
 int is_builtin(char *cmd);
 int execute_builtin(t_shell *shell, char **args);
+int execute_pwd(void);
+int execute_export(t_shell *shell, char **args);
+int execute_unset(t_shell *shell, char **args);
 
 // 环境变量处理函数声明
 void init_env(t_shell *shell, char **envp);
@@ -44,5 +49,10 @@ char *get_env_value(t_env *env, char *key);
 
 // 信号处理函数声明
 void signal_handler(void);
+
+// 新增函数声明
+void set_custom_prompt(t_shell *shell, const char *prompt);
+int handle_pipes(t_shell *shell, char **args);
+void display_history(void);
 
 #endif

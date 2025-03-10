@@ -5,10 +5,12 @@
 ## 功能特性
 
 - 命令行解析和执行
-- 内建命令支持 (cd, exit, env, echo)
+- 内建命令支持 (cd, exit, env, echo, pwd, export, unset)
 - 环境变量管理
+- 管道操作支持 (|)
 - 信号处理 (Ctrl+C, Ctrl+\)
 - 命令历史记录
+- 自定义提示符
 
 ## 快速开始
 
@@ -37,8 +39,11 @@ make
 ```bash
 minishell$ ls -l
 minishell$ cd directory
+minishell$ pwd
 minishell$ env
 minishell$ echo hello
+minishell$ export PATH=/usr/local/bin
+minishell$ ls | grep test | wc -l
 minishell$ exit
 ```
 

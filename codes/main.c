@@ -7,12 +7,14 @@ int main(int argc, char **argv, char **envp)
 
     // 初始化shell环境
     init_shell(&shell, envp);
+    set_custom_prompt(&shell, "\033[1;32mminishell\033[0m$ ");
+    
     while (1)
     {
         // 设置信号处理
         signal_handler();
         // 显示提示符并获取用户输入
-        line = readline("minishell$ ");
+        line = readline(shell.prompt);
         if (!line)     // 处理EOF（Ctrl+D）
             break;
         if (*line)     // 如果输入不为空
@@ -24,4 +26,11 @@ int main(int argc, char **argv, char **envp)
     }
     cleanup_shell(&shell);    // 清理shell环境
     return (0);
+}
+
+void set_custom_prompt(t_shell *shell, const char *prompt)
+{
+    if (shell->prompt)
+        free(shell->prompt);
+    shell->prompt = strdup(prompt);
 }

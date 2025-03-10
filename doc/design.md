@@ -27,6 +27,9 @@ MiniShell 采用模块化设计，主要包含以下几个核心组件：
 - exit：退出 shell
 - env：显示环境变量
 - echo：输出信息
+- pwd：显示当前工作目录
+- export：设置环境变量
+- unset：删除环境变量
 
 #### 2.4 环境变量管理 (env.c)
 - 环境变量初始化
@@ -36,6 +39,16 @@ MiniShell 采用模块化设计，主要包含以下几个核心组件：
 #### 2.5 信号处理 (signals.c)
 - Ctrl+C (SIGINT) 处理
 - Ctrl+\ (SIGQUIT) 处理
+
+#### 2.6 管道处理 (execute.c)
+- 支持多重管道
+- 进程间通信
+- 文件描述符管理
+
+#### 2.7 提示符定制 (main.c)
+- 自定义提示符
+- 颜色支持
+- 动态更新
 
 ### 3. 数据结构
 
@@ -49,6 +62,8 @@ typedef struct s_env {
 typedef struct s_shell {
     t_env *env;
     int status;
+    char *prompt;         // 自定义提示符
+    int pipe_count;       // 管道数量
 } t_shell;
 ```
 
